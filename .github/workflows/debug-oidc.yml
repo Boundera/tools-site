@@ -1,7 +1,8 @@
 # Temporary: prints the claims GitHub puts in this repository's OIDC token.
 name: debug-oidc
 on:
-  workflow_dispatch:
+  push:
+    branches: [fix/oidc-immutable-subject]
 permissions:
   id-token: write
   contents: read
