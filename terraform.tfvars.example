@@ -1,0 +1,20 @@
+# Copy to terraform.tfvars (ignored by git) and adjust. Every value has a
+# default in variables.tf; this file exists to show the shape.
+
+aws_region  = "us-east-1"
+domain_name = "tools.boundera.io"
+zone_name   = "boundera.io"
+bucket_name = "boundera-tools-site"
+
+# The account already holds the GitHub OIDC provider; do not create another.
+create_github_oidc_provider = false
+
+# The host counts nothing unless asked.
+enable_access_logs = false
+
+tools = {
+  "sdr-redactor" = {
+    repository = "Boundera/fedramp-sdr-redactor"
+    # deploy_refs defaults to ["refs/tags/v*"]: releases only.
+  }
+}

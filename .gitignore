@@ -1,0 +1,9 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+crash.log
+*.tfvars
+!terraform.tfvars.example
+.claude/
+.DS_Store

@@ -1,0 +1,33 @@
+# Deploys the host's own pages (site/) after a reviewed merge to main.
+# The role can write the site/ prefix and invalidate the cache; nothing else.
+name: deploy-site
+on:
+  push:
+    branches: [main]
+    paths:
+      - "site/**"
+  workflow_dispatch:
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  deploy:
+    if: vars.AWS_DEPLOY_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-1
+      - run: aws s3 sync site/ "s3://${{ vars.S3_BUCKET }}/site/" --delete --cache-control "public, max-age=300"
+      - run: aws cloudfront create-invalidation --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" --paths "/" "/site/*"
+      - name: Verify the policy header on the live host
+        run: |
+          for i in 1 2 3 4 5 6; do
+            if curl -sI https://tools.boundera.io/ | grep -qi "content-security-policy:.*connect-src 'none'"; then
+              echo "policy header present"; exit 0
+            fi
+            sleep 20
+          done
+          echo "policy header missing"; exit 1

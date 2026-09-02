@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="color-scheme" content="light" />
+    <title>Boundera Tools</title>
+    <meta name="description" content="Free tools from Boundera that run entirely in your browser. Nothing you load here leaves your machine." />
+    <link rel="canonical" href="https://tools.boundera.io/" />
+    <link rel="icon" href="/site/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/site/styles.css" />
+  </head>
+  <body>
+    <nav class="nav" aria-label="Site">
+      <div class="shell nav-inner">
+        <a class="brand" href="https://boundera.io">
+          <img src="/site/logo-symbol-navy.svg" alt="" width="36" height="36" />
+          <span>Boundera</span>
+        </a>
+        <div class="nav-links">
+          <a href="https://github.com/Boundera/tools-site">How this host works</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="shell">
+        <p class="eyebrow">Free tools · FedRAMP 20x</p>
+        <h1>Tools that run in your browser.</h1>
+        <p class="lede">
+          Everything on this host is static files. There is no server behind it, no account, no analytics, and no
+          way for a page here to send anything anywhere. Load a tool, disconnect from the network, and it still works.
+        </p>
+        <span class="promise">nothing leaves your machine</span>
+
+        <ul class="tools">
+          <li>
+            <a class="tool" href="/sdr-redactor/">
+              <h2>SDR Redactor</h2>
+              <p>
+                Redact a FedRAMP Security Decision Record for sharing. Statuses, identifiers, dates, and counts stay.
+                Names, links, resources, accounts, and narrative text are replaced.
+              </p>
+              <span class="go">Open the redactor →</span>
+            </a>
+          </li>
+        </ul>
+
+        <p class="rule">
+          The rule for this host is public and enforced by its configuration: one strict Content Security Policy on
+          every path, one deploy role per tool, and no code in front of the files.
+          <a href="https://github.com/Boundera/tools-site">Read the configuration.</a>
+        </p>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <div class="shell">
+        <p>Made by <a href="https://boundera.io">Boundera</a>. Not affiliated with GSA or the FedRAMP PMO.</p>
+      </div>
+    </footer>
+  </body>
+</html>
