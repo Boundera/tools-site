@@ -7,3 +7,6 @@ crash.log
 !terraform.tfvars.example
 .claude/
 .DS_Store
+tfplan
+*.tfplan
+.apply.log
