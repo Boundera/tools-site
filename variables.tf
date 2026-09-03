@@ -27,16 +27,22 @@ variable "tools" {
     One entry per tool on the host. The key is the tool's path prefix, so the
     tool is served at https://<domain_name>/<key>/. `repository` is the GitHub
     owner/name whose Actions may deploy that prefix and nothing else.
-    `deploy_refs` lists the git refs the deploy role trusts; release tags by
-    default, so a deploy always corresponds to a tagged, reviewed release.
+    `repository_id` is that repository's numeric GitHub id
+    (`gh api repos/<owner>/<name> --jq .id`); GitHub's immutable subject
+    claims carry it, and pinning it means a renamed or re-created repository
+    can never assume the role. `deploy_refs` lists the git refs the deploy
+    role trusts; release tags by default, so a deploy always corresponds to
+    a tagged, reviewed release.
   EOT
   type = map(object({
-    repository  = string
-    deploy_refs = optional(list(string), ["refs/tags/v*"])
+    repository    = string
+    repository_id = optional(number)
+    deploy_refs   = optional(list(string), ["refs/tags/v*"])
   }))
   default = {
     "sdr-redactor" = {
-      repository = "Boundera/fedramp-sdr-redactor"
+      repository    = "Boundera/fedramp-sdr-redactor"
+      repository_id = 1354989244
     }
   }
 
@@ -50,6 +56,18 @@ variable "site_repository" {
   description = "The repository whose Actions may deploy the host's own pages under site/."
   type        = string
   default     = "Boundera/tools-site"
+}
+
+variable "site_repository_id" {
+  description = "Numeric GitHub id of site_repository. Null accepts any id for that name."
+  type        = number
+  default     = 1355277402
+}
+
+variable "github_owner_id" {
+  description = "Numeric GitHub id of the organization that owns the repositories. Immutable subject claims carry it as repo:OWNER@ID/NAME@ID; pinning it means a renamed or re-created organization can never assume a role. Null accepts any id."
+  type        = number
+  default     = 285851699
 }
 
 variable "create_github_oidc_provider" {

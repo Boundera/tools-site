@@ -13,8 +13,9 @@ locals {
       # The host's own pages deploy from this repository's main branch, which
       # is protected and requires review.
       site = {
-        repository  = var.site_repository
-        deploy_refs = ["refs/heads/main"]
+        repository    = var.site_repository
+        repository_id = var.site_repository_id
+        deploy_refs   = ["refs/heads/main"]
       }
     },
     var.tools,
@@ -65,7 +66,23 @@ data "aws_iam_policy_document" "deploy_trust" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = [for ref in each.value.deploy_refs : "repo:${each.value.repository}:ref:${ref}"]
+      # Newer repositories receive GitHub's immutable subject claim,
+      # repo:OWNER@OWNER_ID/NAME@REPO_ID:ref:..., while older ones still get
+      # the plain repo:OWNER/NAME:ref:... form. Both are accepted, and the
+      # numeric ids are pinned whenever they are known.
+      values = flatten([
+        for ref in each.value.deploy_refs : [
+          "repo:${each.value.repository}:ref:${ref}",
+          format(
+            "repo:%s@%s/%s@%s:ref:%s",
+            split("/", each.value.repository)[0],
+            var.github_owner_id == null ? "*" : tostring(var.github_owner_id),
+            split("/", each.value.repository)[1],
+            each.value.repository_id == null ? "*" : tostring(each.value.repository_id),
+            ref,
+          ),
+        ]
+      ])
     }
   }
 }

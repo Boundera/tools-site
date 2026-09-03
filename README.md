@@ -56,7 +56,7 @@ This repository's own variables use the `site` role, so a reviewed merge to `mai
 
 ## Add a tool
 
-1. Add an entry to `tools` in `variables.tf` (or in `terraform.tfvars`): the prefix and the repository. Open a pull request; the owner reviews it.
+1. Add an entry to `tools` in `variables.tf` (or in `terraform.tfvars`): the prefix, the repository, and its numeric id from `gh api repos/<owner>/<name> --jq .id`. The id is pinned in the role's trust policy, because GitHub's subject claims now carry it. Open a pull request; the owner reviews it.
 2. Apply. A new deploy role appears in the outputs.
 3. Set the three variables in the tool's repository and give it a deploy workflow that builds, checks, syncs its prefix, invalidates, and verifies the live hashes. The redactor's workflow is the reference.
 4. Add the tool to the index in `site/index.html` and to the table above.
