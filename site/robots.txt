@@ -1,0 +1,25 @@
+# tools.boundera.io hosts static tools that run entirely in the reader's
+# browser. Everything here is public and safe to crawl. The configuration
+# that serves this host is public too: github.com/Boundera/tools-site
+
+User-Agent: *
+Allow: /
+
+# Assistants are welcome, on the same terms as everyone else.
+User-Agent: GPTBot
+User-Agent: ChatGPT-User
+User-Agent: Claude-Web
+User-Agent: ClaudeBot
+User-Agent: Anthropic-AI
+User-Agent: PerplexityBot
+User-Agent: Google-Extended
+User-Agent: Applebot-Extended
+User-Agent: cohere-ai
+User-Agent: Meta-ExternalAgent
+User-Agent: CCBot
+User-Agent: OAI-SearchBot
+User-Agent: Amazonbot
+Allow: /
+
+Host: https://tools.boundera.io
+Sitemap: https://tools.boundera.io/sitemap.xml

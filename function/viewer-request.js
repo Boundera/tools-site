@@ -4,15 +4,27 @@
 // and nothing else: it reads no header, makes no request, and logs nothing.
 //
 //   /                 -> /site/index.html   the tools index
+//   /robots.txt       -> /site/robots.txt   and the other host-level files
 //   /<tool>/          -> /<tool>/index.html the tool's page
 //   /<tool>           -> 301 to /<tool>/    so the page's links resolve under its prefix
-//   anything with a file extension passes through unchanged
+//   anything else with a file extension passes through unchanged
+//
+// Files a crawler expects at the origin root. They live under site/ with the
+// host's other pages, because the bucket policy lets CloudFront read only the
+// prefixes it serves, never the bucket root.
+var ROOT_FILES = ['/robots.txt', '/sitemap.xml', '/llms.txt', '/favicon.svg'];
+
 function handler(event) {
   var request = event.request;
   var uri = request.uri;
 
   if (uri === '/' || uri === '/index.html') {
     request.uri = '/site/index.html';
+    return request;
+  }
+
+  if (ROOT_FILES.indexOf(uri) !== -1) {
+    request.uri = '/site' + uri;
     return request;
   }
 
