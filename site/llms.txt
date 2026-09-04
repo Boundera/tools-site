@@ -1,0 +1,19 @@
+# Boundera Tools
+
+> Free tools that run entirely in the reader's browser. Every page on this host is static files: no server, no account, no analytics, and no way for a page to send anything anywhere. A tool loaded once keeps working with the network disconnected.
+
+This host exists so that tools handling sensitive documents can prove they never see them. One strict Content Security Policy is applied by the host to every path, each tool deploys from its own repository through a role that can write only its own prefix, and the deployed code is byte-identical to a tagged open-source release whose hash the page displays.
+
+## Tools
+
+- [SDR Redactor](https://tools.boundera.io/sdr-redactor/): Redact a FedRAMP Security Decision Record so it can be shared. Statuses, FedRAMP identifiers, dates, and counts stay; narrative text, links, and resource, account, and people identifiers are replaced with consistent tokens. Free and open source, MIT licensed. Source: https://github.com/Boundera/fedramp-sdr-redactor
+
+## About this host
+
+- [How this host is configured](https://github.com/Boundera/tools-site): the Terraform for the bucket, the distribution, the security headers, and the deploy roles. Public on purpose.
+- [Boundera](https://boundera.io): the company that maintains these tools. Not affiliated with GSA or the FedRAMP PMO.
+
+## Machine-readable links
+
+- [Sitemap](https://tools.boundera.io/sitemap.xml)
+- [Robots](https://tools.boundera.io/robots.txt)

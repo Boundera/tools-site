@@ -20,7 +20,7 @@ A tool that needs a server, analytics, or an email gate does not belong here. It
 | `dns.tf` | The certificate and the DNS alias, with the zone looked up by name |
 | `oidc.tf` | One deploy role per prefix, trusted by one repository each |
 | `function/viewer-request.js` | The only code in front of the bucket: path rewrites, nothing else |
-| `site/` | The host's own pages: the tools index and the 404 page |
+| `site/` | The host's own pages: the tools index, the 404 page, and the files crawlers expect at the root |
 
 Nothing in this repository names an account, a zone id, a distribution id, or a state bucket. Those appear in Terraform outputs and state, which stay private.
 
@@ -59,7 +59,7 @@ This repository's own variables use the `site` role, so a reviewed merge to `mai
 1. Add an entry to `tools` in `variables.tf` (or in `terraform.tfvars`): the prefix, the repository, and its numeric id from `gh api repos/<owner>/<name> --jq .id`. The id is pinned in the role's trust policy, because GitHub's subject claims now carry it. Open a pull request; the owner reviews it.
 2. Apply. A new deploy role appears in the outputs.
 3. Set the three variables in the tool's repository and give it a deploy workflow that builds, checks, syncs its prefix, invalidates, and verifies the live hashes. The redactor's workflow is the reference.
-4. Add the tool to the index in `site/index.html` and to the table above.
+4. Add the tool to the index in `site/index.html`, to `site/sitemap.xml`, to `site/llms.txt`, and to the table above.
 
 ## Verify a deploy
 

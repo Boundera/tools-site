@@ -21,7 +21,7 @@ jobs:
           role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
           aws-region: us-east-1
       - run: aws s3 sync site/ "s3://${{ vars.S3_BUCKET }}/site/" --delete --cache-control "public, max-age=300"
-      - run: aws cloudfront create-invalidation --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" --paths "/" "/site/*"
+      - run: aws cloudfront create-invalidation --distribution-id "${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}" --paths "/" "/site/*" "/robots.txt" "/sitemap.xml" "/llms.txt" "/favicon.svg"
       - name: Verify the policy header on the live host
         run: |
           for i in 1 2 3 4 5 6; do
